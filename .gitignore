@@ -6,3 +6,5 @@ build/
 *.log
 .DS_Store
 backend/prisma/dev.db
+backend/uploads/*
+!backend/uploads/.gitkeep
