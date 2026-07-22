@@ -1,6 +1,17 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getDataset, updateColumnTag } from "../api/client";
+import {
+  ArrowLeft,
+  Rows3,
+  Columns3,
+  ShieldCheck,
+  Gauge,
+  Gem,
+  Eye,
+  Copy,
+  Table2,
+} from "lucide-react";
 
 const TAG_OPTIONS = ["none", "email", "phone", "name", "id"];
 
@@ -42,73 +53,103 @@ function DatasetDetail() {
     }
   };
 
-  if (loading) return <p style={{ padding: 24 }}>Loading...</p>;
-  if (error) return <p style={{ padding: 24, color: "red" }}>{error}</p>;
+  if (loading) {
+    return (
+      <div className="page">
+        <div className="loading-state">Loading dataset…</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="page">
+        <div className="error-banner">{error}</div>
+      </div>
+    );
+  }
+
   if (!dataset) return null;
 
   return (
-    <div style={{ maxWidth: 900, margin: "0 auto", padding: "24px" }}>
-      <Link to="/">&larr; Back to Dashboard</Link>
-      <h1>{dataset.filename}</h1>
+    <div className="page">
+      <Link className="back-link" to="/">
+        <ArrowLeft size={15} />
+        Back to Dashboard
+      </Link>
 
-      <div style={{ display: "flex", gap: 24, marginBottom: 24, flexWrap: "wrap" }}>
-        <Stat label="Rows" value={dataset.rowCount.toLocaleString()} />
-        <Stat label="Columns" value={dataset.columnCount} />
-        <Stat label="Quality Score" value={dataset.qualityScore ?? "-"} />
-        <Stat label="Trust Score" value={dataset.trustScore ?? "-"} />
-        <Stat label="Value Score" value={dataset.valueScore ?? "-"} />
-        <Stat label="Views" value={dataset.viewCount} />
-        <Stat label="Duplicate Rows" value={dataset.duplicateRowCount ?? "-"} />
+      <div className="detail-header">
+        <h1>{dataset.filename}</h1>
       </div>
 
-      <h2>Columns</h2>
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
-        <thead>
-          <tr style={{ borderBottom: "2px solid #ccc", textAlign: "left" }}>
-            <th style={{ padding: 8 }}>Name</th>
-            <th style={{ padding: 8 }}>Type</th>
-            <th style={{ padding: 8 }}>Sensitivity Tag</th>
-            <th style={{ padding: 8 }}>Missing %</th>
-            <th style={{ padding: 8 }}>Invalid Count</th>
-          </tr>
-        </thead>
-        <tbody>
-          {dataset.columns.map((col) => (
-            <tr key={col.id} style={{ borderBottom: "1px solid #eee" }}>
-              <td style={{ padding: 8 }}>{col.name}</td>
-              <td style={{ padding: 8 }}>{col.inferredType}</td>
-              <td style={{ padding: 8 }}>
-                <select
-                  value={col.sensitivityTag}
-                  onChange={(e) => handleTagChange(col.id, e.target.value)}
-                >
-                  {TAG_OPTIONS.map((tag) => (
-                    <option key={tag} value={tag}>
-                      {tag}
-                    </option>
-                  ))}
-                </select>
-                {col.isManualOverride && (
-                  <span style={{ fontSize: 12, color: "#888", marginLeft: 6 }}>
-                    (manual)
-                  </span>
-                )}
-              </td>
-              <td style={{ padding: 8 }}>{col.missingPercent}%</td>
-              <td style={{ padding: 8 }}>{col.invalidCount}</td>
+      <div className="stat-grid">
+        <Stat icon={<Rows3 size={15} />} label="Rows" value={dataset.rowCount.toLocaleString()} />
+        <Stat icon={<Columns3 size={15} />} label="Columns" value={dataset.columnCount} />
+        <Stat icon={<Gauge size={15} />} label="Quality Score" value={dataset.qualityScore ?? "—"} />
+        <Stat icon={<ShieldCheck size={15} />} label="Trust Score" value={dataset.trustScore ?? "—"} />
+        <Stat icon={<Gem size={15} />} label="Value Score" value={dataset.valueScore ?? "—"} />
+        <Stat icon={<Eye size={15} />} label="Views" value={dataset.viewCount} />
+        <Stat icon={<Copy size={15} />} label="Duplicate Rows" value={dataset.duplicateRowCount ?? "—"} />
+      </div>
+
+      <h2 className="section-title">
+        <Table2 size={16} />
+        Columns <span className="count">({dataset.columns.length})</span>
+      </h2>
+
+      <div className="table-card">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Sensitivity Tag</th>
+              <th>Missing %</th>
+              <th>Invalid Count</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {dataset.columns.map((col) => (
+              <tr key={col.id}>
+                <td>{col.name}</td>
+                <td>
+                  <span className="type-badge">{col.inferredType}</span>
+                </td>
+                <td>
+                  <select
+                    className={`tag-select tag-${col.sensitivityTag}`}
+                    value={col.sensitivityTag}
+                    onChange={(e) => handleTagChange(col.id, e.target.value)}
+                  >
+                    {TAG_OPTIONS.map((tag) => (
+                      <option key={tag} value={tag}>
+                        {tag}
+                      </option>
+                    ))}
+                  </select>
+                  {col.isManualOverride && (
+                    <span className="manual-badge">(manual)</span>
+                  )}
+                </td>
+                <td className="mono">{col.missingPercent}%</td>
+                <td className="mono">{col.invalidCount}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
 
-function Stat({ label, value }) {
+function Stat({ icon, label, value }) {
   return (
-    <div style={{ padding: 12, background: "#f5f5f5", borderRadius: 8, minWidth: 100 }}>
-      <div style={{ fontSize: 12, color: "#666" }}>{label}</div>
-      <div style={{ fontSize: 20, fontWeight: 600 }}>{value}</div>
+    <div className="stat-card">
+      <div className="stat-label">
+        {icon}
+        {label}
+      </div>
+      <div className="stat-value">{value}</div>
     </div>
   );
 }
