@@ -7,9 +7,11 @@ import { classifyColumn } from "../services/classifier.js";
 import {
   calculateMissingPercent,
   countInvalidValues,
+  countDuplicateRows,
   calculateQualityScore,
 } from "../services/quality.js";
-import { calculateTrustScore } from "../services/scoring.js";
+import { calculateTrustScore, calculateValueScore } from "../services/scoring.js";
+
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -64,6 +66,7 @@ router.post("/upload", upload.single("file"), async (req, res) => {
 
     // step 3: calculate quality score for the whole dataset
     const qualityScore = calculateQualityScore({ columns, rows, columnStats });
+    const duplicateRowCount = countDuplicateRows(rows);
 
     // step 4: trust score needs quality score + column classification info
     const trustScore = calculateTrustScore({ qualityScore, columnStats });
@@ -76,6 +79,7 @@ router.post("/upload", upload.single("file"), async (req, res) => {
         columnCount: columns.length,
         qualityScore,
         trustScore,
+        duplicateRowCount,
         columns: {
           create: columnStats.map((c) => ({
             name: c.name,
@@ -114,13 +118,26 @@ router.get("/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id);
 
-    // bump view count + last viewed time for the value score
-    const dataset = await prisma.dataset.update({
+    // bump view count + last viewed time first
+    const updated = await prisma.dataset.update({
       where: { id },
       data: {
         viewCount: { increment: 1 },
         lastViewedAt: new Date(),
       },
+      include: { columns: true },
+    });
+
+    // now recalculate value score based on the new view count
+    const valueScore = calculateValueScore({
+      viewCount: updated.viewCount,
+      lastViewedAt: updated.lastViewedAt,
+    });
+
+    // save the updated value score
+    const dataset = await prisma.dataset.update({
+      where: { id },
+      data: { valueScore },
       include: { columns: true },
     });
 

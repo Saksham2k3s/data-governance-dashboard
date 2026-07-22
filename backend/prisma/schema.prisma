@@ -23,6 +23,7 @@ model Dataset {
 
   qualityScore Float?
   trustScore   Float?
+  valueScore   Float?
 
   duplicateRowCount Int?
   viewCount    Int       @default(0)
