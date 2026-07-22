@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Dataset {
+  id           Int       @id @default(autoincrement())
+  filename     String
+  uploadedAt   DateTime  @default(now())
+  rowCount     Int
+  columnCount  Int
+
+  qualityScore Float?
+  trustScore   Float?
+
+  duplicateRowCount Int?
+  viewCount    Int       @default(0)
+  lastViewedAt DateTime?
+
+  columns      Column[]
+}
+
+model Column {
+  id               Int      @id @default(autoincrement())
+  datasetId        Int
+  dataset          Dataset  @relation(fields: [datasetId], references: [id])
+
+  name             String
+  inferredType     String   // "string" | "number" | "date" | "boolean" | "unknown"
+
+  sensitivityTag   String   @default("none") // "email" | "phone" | "name" | "id" | "none"
+  isManualOverride Boolean  @default(false)
+
+  missingPercent   Float    @default(0)
+  invalidCount     Int      @default(0)
+}
