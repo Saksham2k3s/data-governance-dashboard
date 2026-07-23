@@ -203,6 +203,10 @@ human-verified — this distinction also feeds into the Trust Score calculation.
   just column-name hints) to improve recall without needing AI.
 - No automated deployment/CI pipeline — deployed manually to free-tier hosting for
   this assignment.
+- Type inference and classification have known edge cases — e.g. some ID/date columns
+  can be misclassified (e.g. `Date.parse()` being overly permissive with alphanumeric
+  strings, or numeric dates loosely matching the phone regex). With more time, this
+  would be tightened with stricter format validation before accepting a type/tag match.
 
 ---
 
