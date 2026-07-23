@@ -1,0 +1,16 @@
+order_id,product_name,quantity,price,order_date,status
+ORD-2001,Wireless Mouse,2,499,2024-05-01,delivered
+ORD-2002,Bluetooth Speaker,1,1299,2024-05-02,delivered
+ORD-2003,USB-C Cable,,349,2024-05-02,pending
+ORD-2004,Laptop Stand,1,899,2024-05-03,delivered
+ORD-2005,Wireless Mouse,2,499,2024-05-01,delivered
+ORD-2006,Mechanical Keyboard,1,abc,2024-05-04,delivered
+ORD-2007,Webcam,1,1599,,shipped
+ORD-2008,Monitor Stand,,,2024-05-05,pending
+ORD-2009,HDMI Cable,3,249,2024-05-06,delivered
+ORD-2010,Bluetooth Speaker,1,1299,2024-05-02,delivered
+ORD-2011,Desk Lamp,1,749,2024-05-07,cancelled
+ORD-2012,Wireless Charger,,599,2024-05-08,pending
+ORD-2013,Laptop Sleeve,2,,2024-05-09,delivered
+ORD-2014,Phone Case,1,299,2024-05-10,delivered
+ORD-2015,Power Bank,1,1099,not-a-date,shipped

@@ -1,0 +1,16 @@
+customer_id,full_name,email,phone_number,city,signup_date,total_orders
+CUST-1001,Aarav Sharma,aarav.sharma@example.com,9876543210,Mumbai,2024-01-15,12
+CUST-1002,Priya Patel,priya.patel@example.com,9123456780,Delhi,2024-02-20,5
+CUST-1003,Rohan Mehta,rohan.mehta@example.com,9988776655,Bangalore,2024-01-05,23
+CUST-1004,Sneha Gupta,sneha.gupta@example.com,9871234560,Pune,2024-03-11,8
+CUST-1005,Vikram Singh,vikram.singh@example.com,9765432109,Chennai,2024-02-28,15
+CUST-1006,Ananya Iyer,ananya.iyer@example.com,9654321098,Hyderabad,2024-04-02,3
+CUST-1007,Karan Malhotra,karan.malhotra@example.com,9543210987,Kolkata,2024-01-22,19
+CUST-1008,Diya Reddy,diya.reddy@example.com,9432109876,Ahmedabad,2024-03-30,7
+CUST-1009,Arjun Nair,arjun.nair@example.com,9321098765,Jaipur,2024-02-14,11
+CUST-1010,Isha Kapoor,isha.kapoor@example.com,9210987654,Lucknow,2024-04-18,4
+CUST-1011,Aditya Rao,aditya.rao@example.com,9109876543,Chandigarh,2024-01-09,9
+CUST-1012,Meera Joshi,meera.joshi@example.com,9098765432,Indore,2024-03-05,14
+CUST-1013,Kabir Bhatt,kabir.bhatt@example.com,8987654321,Bhopal,2024-02-11,6
+CUST-1014,Riya Desai,riya.desai@example.com,8876543210,Nagpur,2024-04-25,2
+CUST-1015,Yash Verma,yash.verma@example.com,8765432109,Surat,2024-01-30,17
