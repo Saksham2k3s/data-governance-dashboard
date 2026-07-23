@@ -8,8 +8,8 @@ for trust and business value — all browsable from a dashboard.
 
 Built for the Proteccio Data Full Stack Developer assignment.
 
-**Live app:** [add your deployed frontend URL here]
-**Backend API:** [add your deployed backend URL here]
+**Live app:** https://data-governance-dashboard-orpin.vercel.app/
+**Backend API:** https://data-governance-dashboard.onrender.com/
 
 ---
 
